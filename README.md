@@ -1,8 +1,8 @@
 # node-express-endpoint-generator
 
-Allows you to automatically generate three endpoints given the name of the resource model.
+Allows you rapidly generate end points for your node express web server. 
 
-Currently, it supports generation of one GET request (fetch single detail), one POST request, and one DELETE request.
+Currently, it generates three (3) endpoints given the name of the resource model: one GET request (fetch single detail), one POST request, and one DELETE request.
 
 Technically, extending the templates should allow you to generate more than one operation.
 
@@ -44,7 +44,7 @@ Successfully generated endpoint for Doctor at:
 
 ```
 
-See the `samples` folder for results.
+See [the samples folder](https://github.com/darrensapalo/express-endpoint-generator/tree/master/samples/doctor) for results.
 
 ## Supported Template Variables
 
