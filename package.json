@@ -1,0 +1,20 @@
+{
+  "name": "express-endpoint-generator",
+  "version": "1.0.0",
+  "description": "Generates an endpoint file definition, following SMD Endpoint Specifications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "typescript",
+    "code-generation"
+  ],
+  "author": "Darren Karl A. Sapalo",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^7.0.0"
+  }
+}
