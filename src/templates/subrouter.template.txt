@@ -1,8 +1,8 @@
 import express from "express";
 
-import create from "./<CREATE_FILENAME>";
-import delete from "./<DELETE_FILENAME>";
-import get from "./<GET_FILENAME>";
+import <CREATE_FUNC> from "./<CREATE_FILENAME>";
+import <DELETE_FUNC> from "./<DELETE_FILENAME>";
+import <GET_FUNC> from "./<GET_FILENAME>";
 
 /**
  * This defines the subroutes for modifying the resource,

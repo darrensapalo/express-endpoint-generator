@@ -1,22 +1,26 @@
 export interface RouteDefinition {
     filename: string
+    functionName: string
     isDisabled?: boolean
 }
 
 export class EndPointDefinition {
-    constructor(public modelName: string) {
+    constructor(public modelName: string, public serverSubFolder: string) {
         
     }
 
     delete: RouteDefinition = {
-        filename: `delete${this.modelName}`
+        filename: `delete`,
+        functionName: `deletion`
     }
     
     get: RouteDefinition = {
-        filename: `get${this.modelName}`
+        filename: `get`,
+        functionName: `fetch`
     }
 
     create: RouteDefinition = {
-        filename: `create${this.modelName}`
+        filename: `create`,
+        functionName: `creation`
     }
 }

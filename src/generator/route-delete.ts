@@ -6,6 +6,7 @@ import { readFile } from '../parser/file-reader'
 import moment = require('moment');
 import R from 'ramda';
 import { writeFile } from './file-writer';
+import path from 'path';
 
 /**
  * Generates the delete route.
@@ -23,9 +24,9 @@ export function GenerateDeleteRoute(endpoint: EndPointDefinition) {
     if (endpoint.delete.isDisabled === true)
         return of('');
 
-    const fileDestination = `${process.env.OUTPUT_DIR}${endpoint.delete.filename}.ts`
+        const fileDestination = path.join(process.env.OUTPUT_DIR, endpoint.serverSubFolder, `${endpoint.delete.filename}.ts`);
 
-    const routeOutput = `${endpoint.modelName}Routes.delete("/:identifier", delete${endpoint.modelName});`;
+        const routeOutput = `${endpoint.modelName}Routes.delete("/:identifier", ${endpoint.delete.functionName});`;
 
     const now = moment();
 

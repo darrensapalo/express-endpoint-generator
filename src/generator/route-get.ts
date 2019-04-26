@@ -6,6 +6,7 @@ import { readFile } from '../parser/file-reader'
 import { writeFile } from './file-writer';
 import R from 'ramda';
 import moment = require('moment');
+import path from 'path';
 
 /**
  * Generates the get route.
@@ -23,9 +24,9 @@ export function GenerateGetRoute(endpoint: EndPointDefinition) {
     if (endpoint.get.isDisabled === true)
         return of('');
 
-    const fileDestination = `${process.env.OUTPUT_DIR}${endpoint.get.filename}.ts`
+    const fileDestination = path.join(process.env.OUTPUT_DIR, endpoint.serverSubFolder, `${endpoint.get.filename}.ts`);
 
-    const routeOutput = `${endpoint.modelName}Routes.get("/:identifier", get${endpoint.modelName});`;
+    const routeOutput = `${endpoint.modelName}Routes.get("/:identifier", ${endpoint.get.functionName});`;
 
     const now = moment();
 

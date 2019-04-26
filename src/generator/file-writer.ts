@@ -15,3 +15,19 @@ export function writeFile(filepath: string, data: string): Observable<string> {
         
     })
 }
+
+export function createFolder(filepath: string): Observable<{}> {
+    return new Observable(subscriber => {
+
+        fs.mkdir(filepath, err => {
+            if (err) {
+                subscriber.error(err);
+                return;
+            }
+
+            subscriber.next({});
+            subscriber.complete();
+        })
+
+    })
+}

@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": "ts",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node ./src/index.ts --project tsconfig.json"
+  "exec": "npm run clean && ts-node ./src/index.ts --project tsconfig.json"
 }
