@@ -1,0 +1,19 @@
+import express from "express";
+
+import create from "./<CREATE_FILENAME>";
+import delete from "./<DELETE_FILENAME>";
+import get from "./<GET_FILENAME>";
+
+/**
+ * This defines the subroutes for modifying the resource,
+ * <MODEL_NAME>.
+ * 
+ * This was automatically generated on <TIMESTAMP>.
+ */
+const <MODEL_NAME>Routes = express.Router();
+
+<GET_ROUTE>
+<CREATE_ROUTE>
+<DELETE_ROUTE>
+
+export default <MODEL_NAME>Routes;

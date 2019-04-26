@@ -1,0 +1,36 @@
+import express from 'express';
+
+import {pipe} from "rxjs";
+import <MODEL_NAME> from "@models/<MODEL_NAME>";
+import ServiceEndpoint from '@design/service-endpoint';
+import {
+    SuccessfulProcess
+} from "@design/processors";
+import {map, mergeMap} from "rxjs/operators";
+import {RequiredRequestParam} from "@design/validators";
+import {deleteFromModel} from "@design/model-operators";
+
+
+/**
+ * API route that deletes an instance of a <MODEL_NAME>.
+ *
+ * @param request - An HTTP Request object
+ * @param response - An HTTP Response object
+ */
+const deleteCHF = function(request: express.Request, response: express.Response) {
+    
+    const endpoint = new ServiceEndpoint();
+
+    endpoint.Validators = [ RequiredRequestParam("identifier") ];
+
+    endpoint.RequestMapper = map(request => request.params.identifier);
+
+    endpoint.Processor = pipe(
+        mergeMap(deleteFromModel(<MODEL_NAME>)),
+        SuccessfulProcess("Successfully deleted a <MODEL_NAME>.")
+    );
+
+    endpoint.perform(request, response);
+};
+
+export default deleteCHF;
