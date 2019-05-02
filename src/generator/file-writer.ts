@@ -19,7 +19,7 @@ export function writeFile(filepath: string, data: string): Observable<string> {
 export function createFolder(filepath: string): Observable<{}> {
     return new Observable(subscriber => {
 
-        fs.mkdir(filepath, err => {
+        fs.mkdir(filepath, { recursive: true }, err => {
             if (err) {
                 subscriber.error(err);
                 return;

@@ -56,7 +56,5 @@ See [the samples folder](https://github.com/darrensapalo/express-endpoint-genera
 
 ## To do
 
-1. Support models that have auto-generated model IDs.
-2. Add `list` type of template.
-3. Fix ServiceEndpoint<T> of `get` endpoint type, where T should be `FindResourceFromParamRequest` not `FindResourceRequest`
-4. 
+1. Support endpoint generation "option" for models that have auto-generated model IDs.
+2. Add `list` type of endpoint template.

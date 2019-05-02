@@ -10,7 +10,7 @@ import {ValidResourceRequest} from "@design/validators";
 import {mergeMap, map} from "rxjs/operators";
 import {findOneModel} from "@design/model-operators";
 import {FindResourceFromParam} from "@design/mappers";
-import {FindResourceRequest} from "@interfaces/request";
+import {FindResourceFromParamRequest} from "@interfaces/request";
 import {
     GenerateSuccessfulServerResponse,
     SuccessfulFetchedMessage
@@ -27,7 +27,7 @@ import {
  */
 export default function get(request: express.Request, response: express.Response) {
 
-    const endpoint = new ServiceEndpoint<FindResourceRequest>("Fetch <MODEL_NAME> instance");
+    const endpoint = new ServiceEndpoint<FindResourceFromParamRequest>("Fetch <MODEL_NAME> instance");
 
     endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>) ];
 
