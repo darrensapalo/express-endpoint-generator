@@ -12,13 +12,13 @@ export function handleCommandLineInterface() {
     program
         .command('generate <modelName>')
         .option(
-            '-d --directoryName [directoryName]',
+            '-d, --directoryName [directoryName]',
             'Sub directory for this route'
         )
         .action(function(modelName: string, cmd: Command) {
-            let dirName = program.directoryName || `${modelName.toLowerCase()}/`
+            let dirName = cmd.directoryName || `${modelName.toLowerCase()}/`
 
-            console.log()
+            
             console.log(
                 `Generating an endpoint for ${modelName}. Subdirectory: ${dirName}.\n`
             )

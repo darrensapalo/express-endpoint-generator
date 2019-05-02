@@ -15,7 +15,10 @@ import path from 'path';
 import R from 'ramda';
 
 function CreateSubrouteFolder(route: EndPointDefinition) {
-    return createFolder(path.join(process.env.OUTPUT_DIR, route.serverSubFolder))
+
+    const folderPath = path.join(process.env.OUTPUT_DIR, route.serverSubFolder);
+
+    return createFolder(folderPath)
         .pipe(
             catchError(err => {
                 if (err.message.includes("file already exists"))

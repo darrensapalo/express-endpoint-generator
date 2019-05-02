@@ -3,18 +3,24 @@ import express from "express";
 
 import {pipe} from "rxjs";
 
-import <MODEL_NAME>, { AddDisplayNameProperty } from '@models/<MODEL_NAME>';
+import <MODEL_NAME> from '@models/<MODEL_NAME>';
 
 import ServiceEndpoint from "@design/service-endpoint";
-import {ValidResourceRequest} from "@design/validators";
-import {mergeMap, map} from "rxjs/operators";
-import {findOneModel} from "@design/model-operators";
-import {FindResourceFromParam} from "@design/mappers";
-import {FindResourceRequest} from "@interfaces/request";
-import { SuccessfulProcess } from '@design/processors';
+import {
+    JsonRequestBodyIsRequired,
+    ValidResourceRequest
+} from "@design/validators";
+import {mergeMap } from "rxjs/operators";
+import {createForModel } from "@design/model-operators";
+import {CreateResource } from "@design/mappers";
+import {CreateResourceRequest } from "@interfaces/request";
+import {
+    GenerateSuccessfulServerResponse,
+    SuccessfulCreateMessage
+} from '@design/processors';
 
 /**
- * Returns the full details of an instance of a <MODEL_NAME>.
+ * API route that creates a new instance of <MODEL_NAME>.
  *
  * This endpoint was automatically generated on <TIMESTAMP>
  * using the `node-express-endpoint-generator` package.
@@ -22,18 +28,19 @@ import { SuccessfulProcess } from '@design/processors';
  * @param request The HTTP request
  * @param response The HTTP response
  */
-export default function get(request: express.Request, response: express.Response) {
+export default function create<MODEL_NAME>(request: express.Request, response: express.Response) {
 
-    const endpoint = new ServiceEndpoint<FindResourceRequest>("Fetch <MODEL_NAME> instance");
+    const endpoint = new ServiceEndpoint<CreateResourceRequest>("Create <MODEL_NAME> instance");
 
-    endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>) ];
+    endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>), JsonRequestBodyIsRequired ];
 
-    endpoint.RequestMapper = FindResourceFromParam(<MODEL_NAME>);
+    endpoint.RequestMapper = CreateResource(<MODEL_NAME>);
 
     endpoint.Processor = pipe(
-        mergeMap(findOneModel<<MODEL_NAME>>(<MODEL_NAME>)),
-        map(AddDisplayNameProperty),
-        SuccessfulProcess("Successfully fetched <MODEL_NAME> instance.", { shouldLogProcess: false })
+        mergeMap(createForModel<<MODEL_NAME>>(<MODEL_NAME>)),
+        GenerateSuccessfulServerResponse(
+            SuccessfulCreateMessage("<MODEL_NAME>", <MODEL_NAME>),
+            { shouldLogProcess: true })
     );
 
     endpoint.perform(request, response);

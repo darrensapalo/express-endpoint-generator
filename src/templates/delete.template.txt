@@ -4,33 +4,41 @@ import {pipe} from "rxjs";
 import <MODEL_NAME> from "@models/<MODEL_NAME>";
 import ServiceEndpoint from '@design/service-endpoint';
 import {
-    SuccessfulProcess
+    SuccessfulDeleteMessage,
+    GenerateSuccessfulServerResponse
 } from "@design/processors";
-import {map, mergeMap} from "rxjs/operators";
-import {RequiredRequestParam} from "@design/validators";
-import {deleteFromModel} from "@design/model-operators";
+import { mergeMap} from "rxjs/operators";
+import {RequiredRequestParam, ValidResourceRequest} from "@design/validators";
+import { deleteFromModel} from "@design/model-operators";
+import {DestroyResource} from "@design/mappers";
+import {DestroyResourceRequest} from "@interfaces/request";
 
 
 /**
  * API route that deletes an instance of a <MODEL_NAME>.
  *
+ * This endpoint was automatically generated on <TIMESTAMP>
+ * using the `node-express-endpoint-generator` package.
+ *
  * @param request - An HTTP Request object
  * @param response - An HTTP Response object
  */
-const deleteCHF = function(request: express.Request, response: express.Response) {
+export default function delete<MODEL_NAME>(request: express.Request, response: express.Response) {
     
-    const endpoint = new ServiceEndpoint();
+    const endpoint = new ServiceEndpoint<DestroyResourceRequest>();
 
-    endpoint.Validators = [ RequiredRequestParam("identifier") ];
+    endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>), RequiredRequestParam("identifier") ];
 
-    endpoint.RequestMapper = map(request => request.params.identifier);
+    endpoint.RequestMapper = DestroyResource(<MODEL_NAME>);
 
     endpoint.Processor = pipe(
-        mergeMap(deleteFromModel(<MODEL_NAME>)),
-        SuccessfulProcess("Successfully deleted a <MODEL_NAME>.")
+        mergeMap(deleteFromModel<<MODEL_NAME>>(<MODEL_NAME>)),
+
+        GenerateSuccessfulServerResponse(
+            SuccessfulDeleteMessage("<MODEL_NAME>", <MODEL_NAME>),
+            { shouldLogProcess: true }
+            )
     );
 
     endpoint.perform(request, response);
 };
-
-export default deleteCHF;

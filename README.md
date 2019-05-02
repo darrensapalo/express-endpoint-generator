@@ -51,3 +51,12 @@ See [the samples folder](https://github.com/darrensapalo/express-endpoint-genera
 1. `<MODEL_NAME>` - The name of your model.
 2. `<TIMESTAMP>` - The current timestamp, using `moment.format("LLL")` which looks like this: April 26, 2019 4:25 PM.
 3. `<OP_FUNC>` - The name of the function operation (whether `OP` = `GET`, `CREATE`, or `DELETE`) that will be used on your subroute file.
+
+
+
+## To do
+
+1. Support models that have auto-generated model IDs.
+2. Add `list` type of template.
+3. Fix ServiceEndpoint<T> of `get` endpoint type, where T should be `FindResourceFromParamRequest` not `FindResourceRequest`
+4. 

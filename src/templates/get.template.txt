@@ -3,7 +3,7 @@ import express from "express";
 
 import {pipe} from "rxjs";
 
-import <MODEL_NAME>, { AddDisplayNameProperty } from '@models/<MODEL_NAME>';
+import <MODEL_NAME> from '@models/<MODEL_NAME>';
 
 import ServiceEndpoint from "@design/service-endpoint";
 import {ValidResourceRequest} from "@design/validators";
@@ -11,10 +11,13 @@ import {mergeMap, map} from "rxjs/operators";
 import {findOneModel} from "@design/model-operators";
 import {FindResourceFromParam} from "@design/mappers";
 import {FindResourceRequest} from "@interfaces/request";
-import { SuccessfulProcess } from '@design/processors';
+import {
+    GenerateSuccessfulServerResponse,
+    SuccessfulFetchedMessage
+} from '@design/processors';
 
 /**
- * Returns the full details of an instance of a <MODEL_NAME>.
+ * API Route that returns the full details of an instance of <MODEL_NAME>.
  *
  * This endpoint was automatically generated on <TIMESTAMP>
  * using the `node-express-endpoint-generator` package.
@@ -32,8 +35,10 @@ export default function get(request: express.Request, response: express.Response
 
     endpoint.Processor = pipe(
         mergeMap(findOneModel<<MODEL_NAME>>(<MODEL_NAME>)),
-        map(AddDisplayNameProperty),
-        SuccessfulProcess("Successfully fetched <MODEL_NAME> instance.", { shouldLogProcess: false })
+        GenerateSuccessfulServerResponse(
+            SuccessfulFetchedMessage("<MODEL_NAME>", <MODEL_NAME>),
+            { shouldLogProcess: false }
+            )
     );
 
     endpoint.perform(request, response);
