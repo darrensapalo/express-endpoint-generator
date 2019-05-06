@@ -1,4 +1,4 @@
-import {of, pipe} from 'rxjs'
+import { of } from 'rxjs'
 import { map, mapTo, mergeMap } from 'rxjs/operators'
 import {
     OptionalIgnorePrimaryKey,
@@ -23,28 +23,27 @@ import path from 'path';
  * 
  * @param endpoint The definition of the end point
  */
-export function GenerateCreateRoute(endpoint: EndPointDefinition) {
-
-    if (endpoint.create.isDisabled === true)
+export function GenerateUpdateRoute(endpoint: EndPointDefinition) {
+    
+    if (endpoint.update.isDisabled === true)
         return of('');
 
-    const fileDestination = path.join(process.env.OUTPUT_DIR, endpoint.serverSubFolder, `${endpoint.create.filename}.ts`);
+    const fileDestination = path.join(process.env.OUTPUT_DIR, endpoint.serverSubFolder, `${endpoint.update.filename}.ts`);
 
-    const routeOutput = `${endpoint.modelName}Routes.post("/", ${endpoint.create.functionName});`;
+    const routeOutput = `${endpoint.modelName}Routes.put("/", ${endpoint.update.functionName});`;
 
     const now = moment();
 
-    const writeCreateRoute = readFile('templates/create.template.txt')
+    const writeUpdateRoute = readFile('templates/update.template.txt')
     .pipe(
         map(ReplaceModelName(endpoint.modelName)),
         map(ReplaceTimestamp(now.format("LLL"))),
 
         // Other transforms
-        OptionalIgnorePrimaryKey(endpoint.create.filterPrimaryKeyOnRequestMapper, endpoint.modelName),
+        OptionalIgnorePrimaryKey(endpoint.update.filterPrimaryKeyOnRequestMapper, endpoint.modelName),
+
         mergeMap(R.curry(writeFile)(fileDestination))
     );
 
-    return writeCreateRoute.pipe(mapTo(routeOutput))
+    return writeUpdateRoute.pipe(mapTo(routeOutput))
 }
-
-

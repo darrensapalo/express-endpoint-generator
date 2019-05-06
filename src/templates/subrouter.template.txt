@@ -2,18 +2,22 @@ import express from "express";
 
 import <CREATE_FUNC> from "./<CREATE_FILENAME>";
 import <DELETE_FUNC> from "./<DELETE_FILENAME>";
-import <GET_FUNC> from "./<GET_FILENAME>";
+import <UPDATE_FUNC> from "./<UPDATE_FILENAME>";
+import <FETCH_FUNC> from "./<FETCH_FILENAME>";
+import <LIST_FUNC> from "./<LIST_FILENAME>";
 
 /**
- * This defines the subroutes for modifying the resource,
+ * This defines the subroutes for interacting with the resource,
  * <MODEL_NAME>.
  * 
  * This was automatically generated on <TIMESTAMP>.
  */
 const <MODEL_NAME>Routes = express.Router();
 
-<GET_ROUTE>
+<LIST_ROUTE>
+<FETCH_ROUTE>
 <CREATE_ROUTE>
+<UPDATE_ROUTE>
 <DELETE_ROUTE>
 
 export default <MODEL_NAME>Routes;

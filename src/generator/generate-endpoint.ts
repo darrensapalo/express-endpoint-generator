@@ -1,18 +1,22 @@
 import { zip, of, throwError } from 'rxjs'
 import { map, mergeMap, catchError } from 'rxjs/operators'
 import {
-    ReplaceGetRoute,
+    ReplaceFetchRoute,
     ReplaceDeleteRoute,
     ReplaceCreateRoute,
-} from '../parser/replacements'
+    ReplaceUpdateRoute,
+    ReplaceListRoute
+} from '@parser/replacements'
 import { EndPointDefinition } from '@interfaces/endpoint'
 import { GenerateSubRouter } from './generate-subroute'
-import { GenerateGetRoute } from './route-get'
+import { GenerateGetRoute } from './route-fetch'
 import { GenerateDeleteRoute } from './route-delete';
 import { GenerateCreateRoute } from './route-create';
 import { createFolder, writeFile } from './file-writer';
 import path from 'path';
 import R from 'ramda';
+import {GenerateListRoute} from "@generator/route-list";
+import {GenerateUpdateRoute} from "@generator/route-update";
 
 function CreateSubrouteFolder(route: EndPointDefinition) {
 
@@ -39,20 +43,28 @@ export function GenerateEndPoint(route: EndPointDefinition) {
 
     const createRoute = GenerateCreateRoute(route);
 
+    const listRoute = GenerateListRoute(route);
+
+    const updateRoute = GenerateUpdateRoute(route);
+
     const subRoute = GenerateSubRouter(route);
 
     return CreateSubrouteFolder(route)
     .pipe(
-        mergeMap(() => zip(subRoute, getRoute, createRoute, deleteRoute)),
+        mergeMap(() => zip(subRoute, getRoute, createRoute, deleteRoute, listRoute, updateRoute)),
         map(result => {
-            let subRoute = result[0]
-            const getRoute = result[1]
-            const createRoute = result[2]
-            const deleteRoute = result[3]
+            let subRoute = result[0];
+            const getRoute = result[1];
+            const createRoute = result[2];
+            const deleteRoute = result[3];
+            const listRoute = result[4];
+            const updateRoute = result[5];
             
-            subRoute = ReplaceGetRoute(getRoute)(subRoute)
-            subRoute = ReplaceDeleteRoute(deleteRoute)(subRoute)
-            subRoute = ReplaceCreateRoute(createRoute)(subRoute)
+            subRoute = ReplaceFetchRoute(getRoute)(subRoute);
+            subRoute = ReplaceDeleteRoute(deleteRoute)(subRoute);
+            subRoute = ReplaceCreateRoute(createRoute)(subRoute);
+            subRoute = ReplaceListRoute(listRoute)(subRoute);
+            subRoute = ReplaceUpdateRoute(updateRoute)(subRoute);
 
             return subRoute
         }),

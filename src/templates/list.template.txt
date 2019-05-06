@@ -1,0 +1,52 @@
+
+import express from "express";
+
+import {pipe} from "rxjs";
+
+import AllergyType from '@models/AllergyType';
+
+import ServiceEndpoint from "@design/service-endpoint";
+import {ValidResourceRequest} from "@design/validators";
+import {mergeMap, map} from "rxjs/operators";
+import {findAllModel} from "@design/model-operators";
+import {
+    ListResource
+} from "@design/mappers";
+import {
+    ListResourceRequest
+} from "@interfaces/request";
+import {
+    GenerateSuccessfulServerResponse,
+    SuccessfulListedMessage
+} from '@design/processors';
+import <MODEL_NAME> from "@models/<MODEL_NAME>";
+
+/**
+ * API Route that returns the list of <MODEL_NAME>.
+ *
+ * This endpoint was automatically generated on <TIMESTAMP>
+ * using the `node-express-endpoint-generator` package.
+ *
+ * @param request The HTTP request
+ * @param response The HTTP response
+ */
+export default function list(request: express.Request, response: express.Response) {
+
+    const endpoint = new ServiceEndpoint<ListResourceRequest>("List <MODEL_NAME> instances");
+
+    endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>) ];
+
+    endpoint.RequestMapper = pipe(
+        ListResource(<MODEL_NAME>)
+    );
+
+    endpoint.Processor = pipe(
+        mergeMap(findAllModel<<MODEL_NAME>>(<MODEL_NAME>)),
+        GenerateSuccessfulServerResponse(
+            SuccessfulListedMessage("<MODEL_NAME>", <MODEL_NAME>),
+            { shouldLogProcess: false }
+            )
+    );
+
+    endpoint.perform(request, response);
+}

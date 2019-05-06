@@ -11,36 +11,36 @@ import {
     ValidResourceRequest
 } from "@design/validators";
 import {mergeMap } from "rxjs/operators";
-import {createForModel } from "@design/model-operators";
-import {CreateResource } from "@design/mappers";
-import {CreateResourceRequest } from "@interfaces/request";
+import { updateModel } from "@design/model-operators";
+import { UpdateResource } from "@design/mappers";
+import { UpdateResourceRequest } from "@interfaces/request";
 import {
     GenerateSuccessfulServerResponse,
-    SuccessfulCreateMessage
+    SuccessfulUpdateMessage
 } from '@design/processors';
 <FILTER_PRIMARY_KEY_IMPORT?>
 
 /**
- * API route that creates a new instance of <MODEL_NAME>.
+ * API route that updates an existing instance of <MODEL_NAME>.
  *
  * This endpoint was automatically generated on <TIMESTAMP>
  * using the `node-express-endpoint-generator` package.
- * 
+ *
  * @param request The HTTP request
  * @param response The HTTP response
  */
-export default function create<MODEL_NAME>(request: express.Request, response: express.Response) {
+export default function update<MODEL_NAME>(request: express.Request, response: express.Response) {
 
-    const endpoint = new ServiceEndpoint<CreateResourceRequest>("Create <MODEL_NAME> instance");
+    const endpoint = new ServiceEndpoint<UpdateResourceRequest>("Update <MODEL_NAME> instance");
 
     endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>), JsonRequestBodyIsRequired ];
 
-    endpoint.RequestMapper = CreateResource(<MODEL_NAME>);
+    endpoint.RequestMapper = UpdateResource(<MODEL_NAME>);
 
     endpoint.Processor = pipe(
-        mergeMap(createForModel<<MODEL_NAME>>(<MODEL_NAME>, <FILTER_PRIMARY_KEY?>)),
+        mergeMap(updateModel<<MODEL_NAME>>(<MODEL_NAME>, <FILTER_PRIMARY_KEY?>)),
         GenerateSuccessfulServerResponse(
-            SuccessfulCreateMessage("<MODEL_NAME>", <MODEL_NAME>),
+            SuccessfulUpdateMessage("<MODEL_NAME>", <MODEL_NAME>),
             { shouldLogProcess: true })
     );
 
