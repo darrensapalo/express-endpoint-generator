@@ -3,8 +3,6 @@ import express from "express";
 
 import {pipe} from "rxjs";
 
-import AllergyType from '@models/AllergyType';
-
 import ServiceEndpoint from "@design/service-endpoint";
 import {ValidResourceRequest} from "@design/validators";
 import {mergeMap, map} from "rxjs/operators";
