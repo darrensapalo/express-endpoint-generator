@@ -31,7 +31,7 @@ export default function get(request: express.Request, response: express.Response
 
     endpoint.Validators = [ ValidResourceRequest(<MODEL_NAME>) ];
 
-    endpoint.RequestMapper = FindResourceFromParam(<MODEL_NAME>);
+    endpoint.RequestMapper = FindResourceFromParam(<MODEL_NAME>, { usePrimaryKey: true });
 
     endpoint.Processor = pipe(
         mergeMap(findOneModel<<MODEL_NAME>>(<MODEL_NAME>)),
